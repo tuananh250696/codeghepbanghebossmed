@@ -233,9 +233,12 @@ void Task2code( void * pvParameters ){
    if (Serial2.available() > 0) 
     {
        i = Serial2.read();
-     // Serial.print(i);
+    //  Serial.print(i);
    
-
+   if(i=="114")
+      { 
+        Serial.print(i);
+      }
       if(i=="17")
       { 
         Serial.print(i);
