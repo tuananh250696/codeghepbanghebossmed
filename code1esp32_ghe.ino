@@ -136,7 +136,7 @@ if (temperatureC<tt)
  if (potValue1 > 1600) 
     { 
 //(potValue1);  
-       Serial2.print("p9.pic=4");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+       Serial2.print("p9.pic=3");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
@@ -146,7 +146,7 @@ if (temperatureC<tt)
   if (potValue1 <=1600) 
     {//  (potValue1 );
        digitalWrite(25, HIGH);
-       Serial2.print("p9.pic=5");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+       Serial2.print("p9.pic=4");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
        Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
        Serial2.write(0xff);
        Serial2.write(0xff);   
@@ -177,7 +177,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);
       digitalWrite(33, HIGH);
     
-      Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+      Serial2.print("p8.pic=14");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -197,7 +197,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff);
-      Serial2.print("p8.pic=16");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+      Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -218,7 +218,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);
       Serial2.write(0xff);
      
-     Serial2.print("p8.pic=16");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+     Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -243,49 +243,54 @@ void Task2code( void * pvParameters ){
     {
        i = Serial2.read();
       //Serial.println(i);
+      if(i=="9")
+      {
+       Serial.println("c");
+     
+      }
      if(i=="17")
       { 
-        Serial.println(i);
+       Serial.println("1");
       }
        if(i=="18")
       { 
-        Serial.println(i);
+        Serial.println("2");
       }
        if(i=="19")
       { 
-        Serial.println(i);
+       Serial.println("3");
       }
        if(i=="20")
       { 
-        Serial.println(i);
+       Serial.println("4");
       }
        if(i=="21")
       { 
-        Serial.println(i);
+       Serial.println("5");
       }
        if(i=="22")
       { 
-        Serial.println(i);
+       Serial.println("6");
       }
        if(i=="23")
       { 
-        Serial.println(i);
+       Serial.println("7");
       }
        if(i=="24")
       { 
-        Serial.println(i);
+        Serial.println("8");
       }
        if(i=="25")
       { 
-        Serial.println(i);
+       Serial.println("9");
       }
        if(i=="32")
       { 
-        Serial.println(i);
+       Serial.println("a");
       }
        if(i=="33")
       { 
-        Serial.println(i);
+       Serial.println("b");
       }
       if(i=="103")
       { 
