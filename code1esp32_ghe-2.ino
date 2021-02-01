@@ -73,16 +73,16 @@ void Task2code( void * pvParameters ){
       AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
        tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
-      Serial2.print("n25.val=");
-      Serial2.print(tilt);
-      Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
-      Serial2.write(0xff);
-      Serial2.write(0xff);
-       Serial2.print("n24.val=");
-      Serial2.println(H);
-      Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
-      Serial2.write(0xff);
-      Serial2.write(0xff);
+//      Serial2.print("n25.val=");
+//      Serial2.print(tilt);
+//      Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
+//      Serial2.write(0xff);
+//      Serial2.write(0xff);
+//       Serial2.print("n24.val=");
+//      Serial2.println(H);
+//      Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
+//      Serial2.write(0xff);
+//      Serial2.write(0xff);
     delay(500);
   }
 
@@ -93,129 +93,115 @@ if (Serial.available() > 0)
     {
        i2 = Serial.read();
 
-    Serial.println(i2);
+   // Serial.println(i2);
 //      delay(500);
-       if(i2=="17")
+       if(i2=="49")
       { i=1;
           digitalWrite(33,0);
          digitalWrite(25,1);
         digitalWrite(32,0);
         digitalWrite(17,0);
-      //  digitalWrite(13,1);
-         delay(200);  
+        delay(200);
+    
+      }
+       if(i2=="99")
+      { i=1;
+         
          digitalWrite(32,0); 
          digitalWrite(33,0); 
          digitalWrite(25,0); 
          digitalWrite(17,0);
-         i2=="1";
+       
       }
-     if(i2=="18")
+     if(i2=="50")
       {  i=1;
          digitalWrite(33,1);
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,0);
-            
-          delay(200);  
-         digitalWrite(32,0); 
-         digitalWrite(33,0); 
-         digitalWrite(25,0); 
-         digitalWrite(17,0);
-         i2=="1";
+      delay(200);
       }  
-      if(i2=="19")
+      if(i2=="51")
       {  i=1;
          digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,1);
         digitalWrite(17,0);
-            
-         delay(200); 
-         
-         digitalWrite(32,0); 
-         digitalWrite(33,0); 
-         digitalWrite(25,0); 
-         digitalWrite(17,0);
-         i2=="1";
+         delay(200);   
+
  
       } 
 
-     if(i2=="20")
+     if(i2=="52")
       { i=1;
           digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,1);
-            
-         delay(200); 
-         
-         digitalWrite(32,0); 
-         digitalWrite(33,0); 
-         digitalWrite(25,0); 
-         digitalWrite(17,0);
-         i2=="1";
+         delay(200);   
+  
  
       }  
 
-   if(i2=="21")
+   if(i2=="54")
         {
           
            i=10;
            digitalWrite(16,1); 
-         delay(200); 
+         delay(30); 
         digitalWrite(16, 0);
         i2=="1";
         } 
 
         
-   if(i2=="22")
+   if(i2=="53")
        {
           i=5;
            digitalWrite(16,1); 
-         delay(200); 
+         delay(30); 
         digitalWrite(16, 0);
         i2=="1";
         }
 
-   if(i2=="23")
+   if(i2=="55")
       {
           digitalWrite(16,1); 
             EEPROM.write(1,1);
           EEPROM.commit();  
          i=15;
-         delay(200); 
+         delay(50); 
         digitalWrite(16, 0);
         i2=="1";
    
         }
     
-    if((i2=="24"))
+    if((i2=="56"))
        { 
           digitalWrite(16,1); 
-         delay(200); 
+         delay(50); 
          digitalWrite(16, 0);
-        delay(200);
+        delay(50);
           digitalWrite(16,1); 
            EEPROM.write(1,2);
           EEPROM.commit();
           i=20;
-         delay(200); 
+         delay(50); 
          digitalWrite(16, 0);
          i2=="1";
          
        
        }
       
- if((i2=="25"))
+ if((i2=="57"))
       { 
         digitalWrite(16,1); 
-         delay(200); 
+         delay(150); 
          digitalWrite(16, 0);
-        delay(200);
+        delay(150);
           digitalWrite(16,1); 
-         delay(200); 
+         delay(150); 
          digitalWrite(16, 0);
-         delay(200);
+         delay(150);
            digitalWrite(16,1); 
            EEPROM.write(1,3);
           EEPROM.commit(); 
@@ -228,7 +214,7 @@ if (Serial.available() > 0)
         
       }
 
-   if((i2=="36")&&EEPROM.read(1)==1)
+   if((i2=="97")&&EEPROM.read(1)==1)
          {    i=1;
              
                EEPROM.write(2,tilt);
@@ -236,48 +222,48 @@ if (Serial.available() > 0)
                EEPROM.write(3, H);
                EEPROM.commit(); 
                digitalWrite(16, 1);
-               delay(200);
+               delay(150);
               digitalWrite(16, 0);
               i2=="1";
          }
-         if((i2=="36")&&EEPROM.read(1)==2)
+         if((i2=="97")&&EEPROM.read(1)==2)
          {    i=1;
                EEPROM.write(4,tilt);
                EEPROM.commit(); 
                EEPROM.write(5,H);
                EEPROM.commit(); 
                digitalWrite(16, 1);
-               delay(200);
+               delay(150);
                 digitalWrite(16, 0);
-                delay(200);
+                delay(150);
                 digitalWrite(16, 1);
-               delay(200);
+               delay(150);
                 digitalWrite(16, 0);
-                delay(200);
+                delay(150);
                 i2=="1";
          }
          
-         if((i2=="36")&&EEPROM.read(1)==3)
+         if((i2=="97")&&EEPROM.read(1)==3)
          {    i=1;
                EEPROM.write(6,tilt);
                EEPROM.commit(); 
                EEPROM.write(7, H);
                EEPROM.commit(); 
                digitalWrite(16, 1);
-               delay(200);
+               delay(150);
                 digitalWrite(16, 0);
-                delay(200);
+                delay(150);
                 digitalWrite(16, 1);
-               delay(200);
+               delay(150);
                 digitalWrite(16, 0);
-                delay(200);
+                delay(150);
                 digitalWrite(16, 1);
-              delay(200);
+              delay(150);
                 digitalWrite(16, 0);
                 delay(200);
                 i2=="1";
          }
-     if((i2=="37"))
+     if((i2=="98"))
          { 
           ESP.restart();
          }    
@@ -386,7 +372,7 @@ if (Serial.available() > 0)
          digitalWrite(25,1);
         digitalWrite(32,0);
         digitalWrite(17,0);
-          delay(200);
+          delay(50);
          digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,0);
@@ -395,7 +381,7 @@ if (Serial.available() > 0)
       if(H>29&&i==5 )
           {
           digitalWrite(16,1); 
-         delay(200); 
+         delay(50); 
           i=6;
          digitalWrite(16, 0);
           digitalWrite(33,0);
@@ -411,7 +397,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,1);
-        delay(200);
+        delay(50);
          digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,0);
@@ -422,7 +408,7 @@ if (Serial.available() > 0)
           {
             i=1;
           digitalWrite(16,1);
-          delay(120);
+          delay(50);
           digitalWrite(16,0);
           digitalWrite(33,0);
          digitalWrite(25,0);
@@ -437,7 +423,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,0);
-           delay(200);
+           delay(50);
           digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,0);
@@ -447,7 +433,7 @@ if (Serial.available() > 0)
           {
          digitalWrite(16,1); 
              i=11;
-         delay(200); 
+         delay(50); 
          digitalWrite(16, 0);
          digitalWrite(33,0);
          digitalWrite(25,0);
@@ -460,7 +446,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,1);
          digitalWrite(17,0);
-         delay(200);
+         delay(50);
            digitalWrite(33,0);
          digitalWrite(25,0);
          digitalWrite(32,0);
@@ -474,7 +460,7 @@ if (Serial.available() > 0)
          digitalWrite(32,0);
          digitalWrite(17,0);
          digitalWrite(16,1);
-         delay(200);
+         delay(50);
          digitalWrite(16,0);
            digitalWrite(33,0);
          digitalWrite(25,0);
@@ -493,7 +479,7 @@ if (Serial.available() > 0)
             EEPROM.write(1,1);
           EEPROM.commit();  
          i=15;
-         delay(200); 
+         delay(50); 
         digitalWrite(16, 0);
    
         }
@@ -501,9 +487,9 @@ if (Serial.available() > 0)
     if(digitalRead(5)==1)
        { 
           digitalWrite(16,1); 
-         delay(200); 
+         delay(150); 
          digitalWrite(16, 0);
-        delay(200);
+        delay(150);
           digitalWrite(16,1); 
            EEPROM.write(1,2);
           EEPROM.commit();
@@ -590,7 +576,7 @@ if (Serial.available() > 0)
          digitalWrite(32,0);
          digitalWrite(17,0);
    
-          delay(100);
+          delay(50);
           }
      if(EEPROM.read(3)<H&&i==15)
           {
@@ -599,7 +585,7 @@ if (Serial.available() > 0)
          digitalWrite(32,0);
          digitalWrite(17,0);
    
-          delay(100);
+          delay(50);
           }       
 
      if(EEPROM.read(3)==H&&i==15)
@@ -611,7 +597,7 @@ if (Serial.available() > 0)
           digitalWrite(16,1);
           
           i=16;
-          delay(100);
+          delay(50);
           digitalWrite(16,0);
           }
           //TIT
@@ -622,7 +608,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,1);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
    
           }
     if(i==16&& tilt<EEPROM.read(2))
@@ -631,7 +617,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,0);
          digitalWrite(17,1);
-          delay(100);
+          delay(50);
    
           }
 
@@ -644,7 +630,7 @@ if (Serial.available() > 0)
          digitalWrite(17,0);
          digitalWrite(16,1);
           i=1;
-          delay(200);
+          delay(50);
           digitalWrite(16,0);
        }
           
@@ -658,7 +644,7 @@ if (Serial.available() > 0)
          digitalWrite(25,1);
          digitalWrite(32,0);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
           }
       if(EEPROM.read(5)<H&&i==20)
           {
@@ -666,7 +652,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,0);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
           }       
 
       if(EEPROM.read(5)==H&&i==20)
@@ -676,7 +662,7 @@ if (Serial.available() > 0)
          digitalWrite(32,0);
          digitalWrite(17,0);
           i=21;
-          delay(150);
+          delay(50);
           }   
        if( tilt<EEPROM.read(4)&&i==21)
           {
@@ -684,7 +670,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,0);
          digitalWrite(17,1);  
-          delay(100);
+          delay(50);
    
           }
       if(i==21&& tilt>EEPROM.read(4))
@@ -693,7 +679,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,1);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
    
           }
 
@@ -706,7 +692,7 @@ if (Serial.available() > 0)
          digitalWrite(17,0);
           digitalWrite(16,1);
           i=1;
-          delay(200);
+          delay(50);
           digitalWrite(16,0);
        }
 
@@ -719,7 +705,7 @@ if (Serial.available() > 0)
          digitalWrite(25,1);
          digitalWrite(32,0);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
           }
        if(EEPROM.read(7)<H&&i==25)
           {
@@ -727,7 +713,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,0);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
           }       
 
         if(EEPROM.read(7)==H&&i==25)
@@ -739,7 +725,7 @@ if (Serial.available() > 0)
          digitalWrite(16,1);
          
           i=26;
-          delay(100);
+          delay(50);
           digitalWrite(16,0);
           }   
         if( tilt<EEPROM.read(6)&&i==26)
@@ -748,7 +734,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,0);
          digitalWrite(17,1);  
-          delay(100);
+          delay(50);
    
           }
       if(i==26&& tilt>EEPROM.read(6))
@@ -757,7 +743,7 @@ if (Serial.available() > 0)
          digitalWrite(25,0);
          digitalWrite(32,1);
          digitalWrite(17,0);
-          delay(100);
+          delay(50);
    
           }
 
@@ -770,7 +756,7 @@ if (Serial.available() > 0)
          digitalWrite(17,0);
           digitalWrite(16,1);
           i=1;
-          delay(200);
+          delay(50);
           digitalWrite(16,0);
        }
      
