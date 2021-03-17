@@ -5,7 +5,7 @@ static DS3231 RTC;
 #include <OneWire.h>
 #include <DallasTemperature.h>
 const int oneWireBus = 32; 
-int tt=30 ,tt2=1;  
+int tt=30 ,tt2=1,tt3=1,tt4=1,tt5=1;  
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 #define RXD2 18
@@ -145,6 +145,7 @@ if (temperatureC<tt)
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+        tt2=1;
 
         
     }
@@ -1232,14 +1233,16 @@ void Task2code( void * pvParameters ){
     {
      ledcWrite(7, a1);
    //  (potValue);
+   tt3=2;
  
    
     }
-     if (potValue >= 2000) 
+     if (potValue >= 2000 &&tt3 == 2) 
     {
     
       ledcWrite(7, 0);
       // (potValue);
+      tt3=1;
     
     }
 
@@ -1247,21 +1250,25 @@ void Task2code( void * pvParameters ){
    {
     // turn LED on:
     ledcWrite(1, 255);
+    tt4=2;
     
   }
-     if (digitalRead(36)== 0)
+     if (digitalRead(36)== 0 && tt4==2)
      {
     // turn LED on:
     ledcWrite(1,0);
+    tt4=1;
     
   }
      if (digitalRead(39)== HIGH) {
     // turn LED on:
     ledcWrite(2, a2);
+    tt5=2;
   }
-     if (digitalRead(39)== 0) {
+     if (digitalRead(39)== 0 && tt5==2) {
     // turn LED on:
     ledcWrite(2, 0);
+    tt5=1;
   }
 
 
