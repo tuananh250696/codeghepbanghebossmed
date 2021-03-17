@@ -5,16 +5,16 @@ static DS3231 RTC;
 #include <OneWire.h>
 #include <DallasTemperature.h>
 const int oneWireBus = 32; 
-int tt=30 ;  
+int tt=30 ,ttt;  
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 #define RXD2 18
 #define TXD2 19
 const int potPin = 34;
 const int potPin1 = 35;
-int potValue=0 , potValue1=0;
+int potValue=0 , potValue1=4000;
 unsigned char v=1,u=1;
-String i;
+String i,i2;
 int n=0; 
 int  a1=0,a2=0,a3=0,a4=0,a5=0,a6=0;
 int  tem1=30,tem22=30;
@@ -33,7 +33,7 @@ TaskHandle_t Task2;
 
 
 void setup() {
-
+   
   Serial.begin(9600);
   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
   RTC.begin();
@@ -56,6 +56,7 @@ void setup() {
    pinMode(17, OUTPUT);
    pinMode(2, OUTPUT);
 
+   digitalWrite(25,0);
    
    pinMode(36, INPUT);
    pinMode(39, INPUT);
@@ -109,10 +110,12 @@ void setup() {
 //Task1code: blinks an LED every 1000 ms
 void Task1code( void * pvParameters ){
 //pinMode(2, OUTPUT);
-
+ digitalWrite(25,0);  
+    pinMode(34, INPUT);
+   pinMode(35, INPUT);
   for(;;){
-   potValue1 = analogRead(potPin1); 
- 
+  
+  potValue1 = analogRead(potPin1); 
   sensors.requestTemperatures(); 
   int temperatureC = sensors.getTempCByIndex(0);
   char a=30;
@@ -121,7 +124,7 @@ void Task1code( void * pvParameters ){
    Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
    Serial2.write(0xff);
    Serial2.write(0xff);
-   delay(500);
+   delay(300);
 
 if (temperatureC>=tt)
   {
@@ -133,27 +136,31 @@ if (temperatureC<tt)
    ledcWrite(4, 255);
   } 
 
- if (potValue1 > 1600) 
+ //Serial.println(potValue1 );
+ if (potValue1 > 1000) 
     { 
-//(potValue1);  
-       Serial2.print("p9.pic=4");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+//(potValue1);
+       digitalWrite(25,0);  
+       Serial2.print("p9.pic=3");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
         digitalWrite(25,0);
         
     }
-  if (potValue1 <=1600) 
+
+  if (potValue1 <=1000) 
     {//  (potValue1 );
        digitalWrite(25, HIGH);
-       Serial2.print("p9.pic=5");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+       Serial2.print("p9.pic=4");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
        Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
        Serial2.write(0xff);
        Serial2.write(0xff);   
        
 //(potValue1);      
     }   
-    
+
+   
    ht3= (RTC.getHours()*60)+RTC.getMinutes();
    ht1= (h1*60)+m1;
    ht2= (h2*60)+m2;
@@ -177,7 +184,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);
       digitalWrite(33, HIGH);
     
-      Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+      Serial2.print("p8.pic=14");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -197,7 +204,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff);
-      Serial2.print("p8.pic=16");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+      Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -218,7 +225,7 @@ if (temperatureC<tt)
       Serial2.write(0xff);
       Serial2.write(0xff);
      
-     Serial2.print("p8.pic=16");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
+     Serial2.print("p8.pic=15");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
       Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
       Serial2.write(0xff);
       Serial2.write(0xff); 
@@ -232,59 +239,65 @@ void Task2code( void * pvParameters ){
   EEPROM.begin(512);
 
   for(;;){
+//    if (Serial.available() > 0) 
+//    {
+//       i2 = Serial.read();
+//
+//       Serial2.print(i2);
+//    }
 
    if (Serial2.available() > 0) 
     {
        i = Serial2.read();
-      //(i);
-   
-   if(i=="114")
-      { 
-        (i);
+      //Serial.println(i);
+      if(i=="9")
+      {
+       Serial.println("c");
+     
       }
-      if(i=="17")
+     if(i=="17")
       { 
-        (i);
+       Serial.println("1");
       }
        if(i=="18")
       { 
-        (i);
+        Serial.println("2");
       }
        if(i=="19")
       { 
-        (i);
+       Serial.println("3");
       }
        if(i=="20")
       { 
-        (i);
+       Serial.println("4");
       }
        if(i=="21")
       { 
-        (i);
+       Serial.println("5");
       }
        if(i=="22")
       { 
-        (i);
+       Serial.println("6");
       }
-         if(i=="23")
+       if(i=="23")
       { 
-        (i);
+       Serial.println("7");
       }
-         if(i=="24")
+       if(i=="24")
       { 
-        (i);
+        Serial.println("8");
       }
-         if(i=="25")
+       if(i=="25")
       { 
-        (i);
+       Serial.println("9");
       }
-         if(i=="36")
+       if(i=="32")
       { 
-        (i);
+       Serial.println("a");
       }
-         if(i=="37")
+       if(i=="33")
       { 
-        (i);
+       Serial.println("b");
       }
       if(i=="103")
       { 
@@ -325,7 +338,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
-     
+     i=="1";
       }
       /*
    if(i=="48")
@@ -340,6 +353,7 @@ void Task2code( void * pvParameters ){
     Serial2.write(0xff);
     Serial2.write(0xff);
     ledcWrite(3, 0);
+     i=="1";
       }
    if(i=="50")
       { 
@@ -367,6 +381,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       }
    
 
@@ -379,6 +394,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
      
       }
       //
@@ -419,6 +435,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
    if(i=="83"&& kk==1)
@@ -441,6 +458,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       }
   
      if(i=="82"&& kk==2)
@@ -462,6 +480,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
    if(i=="83"&& kk==2)
@@ -484,6 +503,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       }
 
    if(i=="82"&& kk==3)
@@ -505,6 +525,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
    if(i=="83"&& kk==3)
@@ -527,6 +548,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       }
 
      if(i=="82"&& kk==4)
@@ -548,6 +570,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
    if(i=="83"&& kk==4)
@@ -570,6 +593,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       }
 
 
@@ -582,6 +606,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
 
@@ -605,6 +630,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
      
       }
     if(i=="81")
@@ -627,6 +653,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
    
       }
    if(i=="87")
@@ -638,6 +665,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
 
@@ -650,6 +678,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
 
@@ -662,6 +691,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        
       }
 
@@ -675,6 +705,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
       
       }
 
@@ -720,7 +751,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
-        
+         i=="1";
         
        }
 
@@ -764,7 +795,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
-        
+         i=="1";
         
        }
  //lamp1
@@ -807,7 +838,7 @@ void Task2code( void * pvParameters ){
     Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
     Serial2.write(0xff);
     Serial2.write(0xff);
-
+     i=="1";
        }
       
     
@@ -850,6 +881,7 @@ void Task2code( void * pvParameters ){
     Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
     Serial2.write(0xff);
     Serial2.write(0xff);
+     i=="1";
       }      
 
       
@@ -895,6 +927,7 @@ void Task2code( void * pvParameters ){
     Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
     Serial2.write(0xff);
     Serial2.write(0xff);
+     i=="1";
        }
        
     
@@ -937,6 +970,7 @@ void Task2code( void * pvParameters ){
     //lp2=lamp11 * 2.55;
     ledcWrite(5, lp1);
    // ledcWrite(6, lp2);
+    i=="1";
       
       }
       
@@ -978,6 +1012,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
+         i=="1";
        }
 
        
@@ -993,7 +1028,7 @@ void Task2code( void * pvParameters ){
        EEPROM.write(1,1);
        EEPROM.commit();
      //   delay(5);
-       
+        i=="1";
         }
 
       if(EEPROM.read(1)>11)
@@ -1001,6 +1036,7 @@ void Task2code( void * pvParameters ){
         EEPROM.write(1,11);  
         EEPROM.commit();
        // delay(5);
+        
         }
 
         if(EEPROM.read(1)==1)
@@ -1069,7 +1105,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);
         Serial2.write(0xff);
 
-     
+      i=="1";
        }
      
       
@@ -1114,7 +1150,7 @@ void Task2code( void * pvParameters ){
         Serial2.write(0xff);
         Serial2.write(0xff);
       
-
+      i=="1";
       }
 
 
@@ -1149,7 +1185,7 @@ void Task2code( void * pvParameters ){
        Serial2.write(0xff);
        Serial2.write(0xff);
        ledcWrite(3, a333);
-       
+       i=="1"; 
 
        }
       
@@ -1184,11 +1220,10 @@ void Task2code( void * pvParameters ){
        Serial2.write(0xff);
        Serial2.write(0xff);
        ledcWrite(3, a333);
-
+      i=="1";
        }
     }
-
-     
+ 
    potValue = analogRead(potPin);
   // potValue1 = analogRead(potPin1);
     //(potValue);
