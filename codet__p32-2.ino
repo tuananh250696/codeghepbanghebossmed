@@ -5,7 +5,7 @@ static DS3231 RTC;
 #include <OneWire.h>
 #include <DallasTemperature.h>
 const int oneWireBus = 32; 
-int tt=30 ,ttt;  
+int tt=30 ,tt2=1;  
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 #define RXD2 18
@@ -124,7 +124,7 @@ void Task1code( void * pvParameters ){
    Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
    Serial2.write(0xff);
    Serial2.write(0xff);
-   delay(300);
+   delay(200);
 
 if (temperatureC>=tt)
   {
@@ -137,7 +137,7 @@ if (temperatureC<tt)
   } 
 
  //Serial.println(potValue1 );
- if (potValue1 > 1000) 
+ if (potValue1 > 1000 && tt2==2) 
     { 
 //(potValue1);
        digitalWrite(25,0);  
@@ -145,7 +145,7 @@ if (temperatureC<tt)
         Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
         Serial2.write(0xff);
         Serial2.write(0xff);
-        digitalWrite(25,0);
+
         
     }
 
@@ -155,7 +155,8 @@ if (temperatureC<tt)
        Serial2.print("p9.pic=4");  // This is sent to the nextion display to set what object name (before the dot) and what atribute (after the dot) are you going to change.
        Serial2.write(0xff);  // We always have to send this three lines after each command sent to the nextion display.
        Serial2.write(0xff);
-       Serial2.write(0xff);   
+       Serial2.write(0xff); 
+       tt2=2;  
        
 //(potValue1);      
     }   
