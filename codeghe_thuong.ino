@@ -92,7 +92,8 @@ void setup() {
 //  }
 //
 //}
-
+//Serial.println(tilt);
+//Serial.println(H);
 void loop() {
 
   if (SerialBT.available()) 
@@ -624,22 +625,55 @@ if (Serial.available() > 0)
      
        tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
  //    Serial.println(tilt);
-        if(H<=29)
+// Serial.println(tilt);
+//Serial.println(H);
+
+//if(H<=0)
+//        {
+//
+//      Wire.begin();
+//     Wire.beginTransmission(MPU);
+//     Wire.write(0x6B);
+//    Wire.write(0);
+//    Wire.endTransmission(false);
+//    //xTaskCreatePinnedToCore(Task2code, "Task1", 10000, NULL, 1, NULL, 1); 
+//    lox.begin();
+//     Wire.beginTransmission(MPU);
+//      Wire.write(0x3B); // Start with register 0x3B (ACCEL_XOUT_H)
+//      Wire.endTransmission(false);
+//      Wire.requestFrom(MPU, 6,false);
+//      delay(150);
+//      Wire.begin();
+//     Wire.beginTransmission(MPU);
+//     Wire.write(0x6B);
+//    Wire.write(0);
+//    Wire.endTransmission(true);
+//    //xTaskCreatePinnedToCore(Task2code, "Task1", 10000, NULL, 1, NULL, 1); 
+//    lox.begin();
+//     Wire.beginTransmission(MPU);
+//      Wire.write(0x3B); // Start with register 0x3B (ACCEL_XOUT_H)
+//      Wire.endTransmission(false);
+//      Wire.requestFrom(MPU, 6, true); // Read 6 registers total, each axis value is stored in 2 registers
+//   
+//        }
+//        
+        if(H<=27)
         {
+          
           digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,1);
         digitalWrite(17,0);
-          delay(50);
-         digitalWrite(33,0);
-         digitalWrite(25,0);
-        digitalWrite(32,0);
-        digitalWrite(17,0);
+//          delay(50);
+//         digitalWrite(33,0);
+//         digitalWrite(25,0);
+//        digitalWrite(32,0);
+//        digitalWrite(17,0);
         }
-        if(H>29)
+        if(H>27)
         {
            digitalWrite(16,1); 
-         delay(50); 
+         delay(150); 
           i=6;
          digitalWrite(16, 0);
           digitalWrite(33,0);
@@ -652,46 +686,47 @@ if (Serial.available() > 0)
 
  if(  i==6)
  {
-   VL53L0X_RangingMeasurementData_t measure;
-      lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
-      H=measure.RangeMilliMeter/10;
-     
-
-     Wire.beginTransmission(MPU);
-      Wire.write(0x3B); // Start with register 0x3B (ACCEL_XOUT_H)
-      Wire.endTransmission(false);
-      Wire.requestFrom(MPU, 6, true); // Read 6 registers total, each axis value is stored in 2 registers
-      AcX = Wire.read() << 8 | Wire.read(); // X-axis value
-      AcY = Wire.read() << 8 | Wire.read(); // Y-axis value
-      AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
-     
-       tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
-          
-         if (tilt<=76)
-         {
+//   VL53L0X_RangingMeasurementData_t measure;
+//      lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
+//      H=measure.RangeMilliMeter/10;
+//     
+//
+//     Wire.beginTransmission(MPU);
+//      Wire.write(0x3B); // Start with register 0x3B (ACCEL_XOUT_H)
+//      Wire.endTransmission(false);
+//      Wire.requestFrom(MPU, 6, true); // Read 6 registers total, each axis value is stored in 2 registers
+//      AcX = Wire.read() << 8 | Wire.read(); // X-axis value
+//      AcY = Wire.read() << 8 | Wire.read(); // Y-axis value
+//      AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
+//     
+//       tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+////        Serial.println(tilt);
+////Serial.println(H);  
+//         if (tilt<=76)
+//         {
           digitalWrite(33,0);
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,1);
-        delay(50);
-         digitalWrite(33,0);
-         digitalWrite(25,0);
-        digitalWrite(32,0);
-        digitalWrite(17,0);
-      
-          }    
-         if( tilt>76)
-          {
-            i=1;
-          digitalWrite(16,1);
-          delay(50);
-          digitalWrite(16,0);
-          digitalWrite(33,0);
-         digitalWrite(25,0);
-        digitalWrite(32,0);
-        digitalWrite(17,0);
-      
-          }
+////        delay(50);
+////         digitalWrite(33,0);
+////         digitalWrite(25,0);
+////        digitalWrite(32,0);
+////        digitalWrite(17,0);
+//      
+//          }    
+//         if( tilt>76)
+//          {
+//            i=1;
+//          digitalWrite(16,1);
+//          delay(50);
+//          digitalWrite(16,0);
+//          digitalWrite(33,0);
+//         digitalWrite(25,0);
+//        digitalWrite(32,0);
+//        digitalWrite(17,0);
+//      
+//          }
        }
      
 ///full dowwn
@@ -711,17 +746,20 @@ if (Serial.available() > 0)
       AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
        tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+
+//       Serial.println(tilt);
+//Serial.println(H);
         if(H>=4)
         {
         digitalWrite(33,1);
          digitalWrite(25,0);
         digitalWrite(32,0);
         digitalWrite(17,0);
-           delay(50);
-          digitalWrite(33,0);
-         digitalWrite(25,0);
-        digitalWrite(32,0);
-        digitalWrite(17,0);
+//           delay(50);
+//          digitalWrite(33,0);
+//         digitalWrite(25,0);
+//        digitalWrite(32,0);
+//        digitalWrite(17,0);
           }
          if(H<4)
           {
@@ -750,17 +788,20 @@ if (Serial.available() > 0)
             AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
             tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+//
+//            Serial.println(tilt);
+//Serial.println(H);
          if( tilt>=4)
          {
           digitalWrite(33,0);
          digitalWrite(25,1);
          digitalWrite(32,0);
          digitalWrite(17,0);
-         delay(50);
-           digitalWrite(33,0);
-         digitalWrite(25,0);
-         digitalWrite(32,0);
-         digitalWrite(17,0);
+//         delay(50);
+//           digitalWrite(33,0);
+//         digitalWrite(25,0);
+//         digitalWrite(32,0);
+//         digitalWrite(17,0);
           }
        if(tilt<4)
           {
@@ -770,7 +811,7 @@ if (Serial.available() > 0)
          digitalWrite(32,0);
          digitalWrite(17,0);
          digitalWrite(16,1);
-         delay(50);
+         delay(150);
          digitalWrite(16,0);
            digitalWrite(33,0);
          digitalWrite(25,0);
@@ -912,6 +953,9 @@ if (Serial.available() > 0)
             AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
             tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+//
+//            Serial.println(tilt);
+//Serial.println(H);
          if(EEPROM.read(3)>H)
          {          
            digitalWrite(33,0);
@@ -961,6 +1005,9 @@ if (Serial.available() > 0)
             AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
             tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+
+//            Serial.println(tilt);
+//Serial.println(H);
        if( tilt>EEPROM.read(2))
        {     
             digitalWrite(33,0);
@@ -1012,6 +1059,9 @@ if (Serial.available() > 0)
             AcZ = Wire.read() << 8 | Wire.read(); // Z-axis value
      
             tilt = -(atan(-1 * AcX / sqrt(pow(AcY, 2) + pow(AcZ, 2))) * 180 / PI);
+
+//            Serial.println(tilt);
+//Serial.println(H);
           
         if(EEPROM.read(5)>H)
         {
